@@ -1,40 +1,27 @@
-from pytest_bdd import given, scenarios, then, when
-
-from pages.login_page import LoginPage
-from test_data.login_data import LoginData
+from pytest_bdd import given, parsers, scenarios, then, when
 
 scenarios("login.feature")
 
 
-@given("The User Opens The Swag Labs Application")
-def open_application(page):
-
-    login_page = LoginPage(page)
+@given("I Open The Application")
+def open_application(login_page):
 
     login_page.open_application()
 
 
-@when("The User Enters Valid Login Credentials")
-def enter_credentials(page):
+@when(parsers.parse('I Login Using User "{user_type}"'))
+def login_using_user(login_page, users, user_type):
 
-    login_page = LoginPage(page)
+    user = users[user_type]
 
-    login_page.enter_username(LoginData.VALID_USERNAME)
+    login_page.enter_username(user["username"])
 
-    login_page.enter_password(LoginData.VALID_PASSWORD)
-
-
-@when("The User Clicks The Login Button")
-def click_login(page):
-
-    login_page = LoginPage(page)
+    login_page.enter_password(user["password"])
 
     login_page.click_login()
 
 
-@then("The User Should See The Inventory Page")
-def verify_inventory_page(page):
-
-    login_page = LoginPage(page)
+@then("I Should See The Inventory Page")
+def verify_inventory_page(login_page):
 
     assert login_page.verify_inventory_page()
