@@ -1,5 +1,4 @@
 class LoginLocators:
-
     USERNAME_INPUT = "#user-name"
 
     PASSWORD_INPUT = "#password"

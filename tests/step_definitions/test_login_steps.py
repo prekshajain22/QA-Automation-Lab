@@ -1,8 +1,7 @@
-from pytest_bdd import given, when, then, scenarios
+from pytest_bdd import given, scenarios, then, when
 
 from pages.login_page import LoginPage
 from test_data.login_data import LoginData
-
 
 scenarios("login.feature")
 
