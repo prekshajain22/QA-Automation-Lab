@@ -1,4 +1,4 @@
-from config.settings import BASE_URL
+from config.environment import BASE_URL
 from locators.login_locators import LoginLocators
 from pages.base_page import BasePage
 

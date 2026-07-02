@@ -1,13 +1,18 @@
 import pytest
 from playwright.sync_api import Playwright
 
-from constants.browser_constants import HEADLESS, SLOW_MO
+from config.environment import BROWSER, HEADLESS, SLOW_MO
 
 
 @pytest.fixture(scope="function")
 def page(playwright: Playwright):
 
-    browser = playwright.chromium.launch(headless=HEADLESS, slow_mo=SLOW_MO)
+    browser_type = getattr(playwright, BROWSER)
+
+    browser = browser_type.launch(
+        headless=HEADLESS,
+        slow_mo=SLOW_MO,
+    )
 
     page = browser.new_page()
 
