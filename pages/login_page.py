@@ -1,24 +1,28 @@
-from config.environment import BASE_URL
+from components.button import Button
+from components.text_input import TextInput
+from components.textElement import Label
+from config.settings import BASE_URL
 from locators.login_locators import LoginLocators
 from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
+
     def __init__(self, page):
         super().__init__(page)
-        print("LoginPage created")
+
+        self.username = TextInput(page, LoginLocators.USERNAME_INPUT, "Username")
+        self.password = TextInput(page, LoginLocators.PASSWORD_INPUT, "Password")
+        self.login_button = Button(page, LoginLocators.LOGIN_BUTTON, "Login Button")
+        self.inventory = Label(page, LoginLocators.INVENTORY_CONTAINER, "Inventory List")
 
     def open_application(self):
-        self.open_url(BASE_URL)
+        self.page.goto(BASE_URL)
 
-    def enter_username(self, username):
-        self.enter_text(LoginLocators.USERNAME_INPUT, username)
-
-    def enter_password(self, password):
-        self.enter_text(LoginLocators.PASSWORD_INPUT, password)
-
-    def click_login(self):
-        self.click(LoginLocators.LOGIN_BUTTON)
+    def login(self, username, password):
+        self.username.enter(username)
+        self.password.enter(password, sensitive=True)
+        self.login_button.click()
 
     def verify_inventory_page(self):
-        return self.is_visible(LoginLocators.INVENTORY_CONTAINER)
+        return self.inventory.is_visible()

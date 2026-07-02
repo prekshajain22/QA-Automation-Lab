@@ -1,32 +1,28 @@
+from config.settings import DEFAULT_TIMEOUT
 from utils.logger import get_logger
+from utils.waits import Waits
 
 
 class BasePage:
     def __init__(self, page):
-
         self.page = page
         self.logger = get_logger()
 
     def open_url(self, url):
-
         self.logger.info(f"Opening URL: {url}")
-
         self.page.goto(url)
+        Waits.until_load(self.page)
 
     def click(self, locator):
-
-        self.logger.info(f"Clicking element: {locator}")
-
+        self.page.locator(locator).wait_for(state="visible")
         self.page.locator(locator).click()
 
     def enter_text(self, locator, text):
-
-        self.logger.info(f"Entering text in: {locator}")
-
+        self.page.locator(locator).wait_for(state="visible")
         self.page.locator(locator).fill(text)
 
-    def is_visible(self, locator):
+    def wait_for_visible(self, locator, timeout=DEFAULT_TIMEOUT):
+        self.page.locator(locator).wait_for(state="visible", timeout=timeout)
 
-        self.logger.info(f"Checking visibility: {locator}")
-
-        return self.page.locator(locator).is_visible()
+    def screenshot(self, name):
+        self.page.screenshot(path=f"screenshots/{name}.png")
