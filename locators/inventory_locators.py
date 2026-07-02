@@ -1,0 +1,10 @@
+class InventoryLocators:
+    INVENTORY_CONTAINER = ".inventory_container"
+    PRODUCT_ITEM = ".inventory_item"
+    PRODUCT_NAME = ".inventory_item_name"
+    PRODUCT_PRICE = ".inventory_item_price"
+    ADD_TO_CART_BUTTON = "button[name*='add-to-cart']"
+    REMOVE_BUTTON = "button[name*='remove']"
+    CART_BADGE = ".shopping_cart_badge"
+    CART_LINK = ".shopping_cart_link"
+    SORT_CONTAINER = ".product_sort_container"

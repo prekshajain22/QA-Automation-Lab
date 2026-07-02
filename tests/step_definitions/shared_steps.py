@@ -1,6 +1,5 @@
-from pytest_bdd import given, parsers, scenarios, then, when
+from pytest_bdd import given, parsers, then, when
 
-scenarios("login.feature")
 
 @given("I Open The Application")
 def open_application(login_page):
@@ -8,9 +7,8 @@ def open_application(login_page):
 
 
 @when(parsers.parse('I Login Using User "{user_type}"'))
-def login_using_user(login_page, users, user_type):
-    user = users[user_type]
-    login_page.login(user["username"], user["password"])
+def login(login_actions, user_type):
+    login_actions.login_as(user_type)
 
 
 @then("I Should See The Inventory Page")
