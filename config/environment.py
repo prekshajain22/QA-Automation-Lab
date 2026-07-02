@@ -1,13 +1,12 @@
 import os
-
 from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_URL = os.getenv("BASE_URL")
-
+BASE_URL = os.getenv("BASE_URL", "https://www.saucedemo.com")
 BROWSER = os.getenv("BROWSER", "chromium").lower()
-
-HEADLESS = os.getenv("HEADLESS", "False").lower() == "true"
-
+HEADLESS = os.getenv("HEADLESS", "True").lower() == "true"
 SLOW_MO = int(os.getenv("SLOW_MO", "0"))
+
+if not BASE_URL:
+    raise ValueError("BASE_URL is not set. Check environment config.")
