@@ -38,6 +38,10 @@ Install Playwright browsers:
 playwright install
 ```
 
+## Install parallel execution support:
+
+pip install pytest-xdist
+
 ## Run Tests
 
 Run all tests:
@@ -51,6 +55,26 @@ Run specific test:
 ```bash
 pytest tests/test_browser_launch.py -v
 ```
+
+## Run tests in parallel
+
+pytest -n auto -v
+
+or
+
+pytest -n 2 -v
+
+## Cross-browser execution
+
+Set browser in .env:
+
+BROWSER=chromium | firefox | webkit
+
+Run tests:
+
+pytest -v
+
+Same test suite runs across different browsers without code changes.
 
 ## Code Quality
 
