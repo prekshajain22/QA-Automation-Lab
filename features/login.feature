@@ -1,5 +1,6 @@
 Feature: Login
 
+    @smoke
     Scenario: Login with standard user
         Given I Open The Application
         When I Login Using User "standard_user"
