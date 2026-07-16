@@ -86,3 +86,47 @@ Set `BROWSER` in `.env` or the environment to `chromium`, `firefox`, or `webkit`
 - Open a feature branch, add tests, run the suite locally, and open a PR with a short description.
 
 ---
+
+# Running the QA Automation Workflow
+
+## 1. Start the n8n Container
+
+```powershell
+podman stop n8n
+podman start n8n
+podman ps
+```
+
+## 2. Start the Flask API
+
+Open a new PowerShell window.
+Navigate to the project folder and Activate the virtual environment.
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+
+Then Run the Flask service.
+python automation_services\test_runner.py
+```
+
+Leave this terminal running.
+
+## 3. Open n8n
+
+Open your browser and navigate to:
+
+```
+http://localhost:5678
+```
+
+Execute the workflow.
+
+## 4. Test the Flask API (Optional)
+
+Open another PowerShell window.
+
+```powershell
+Invoke-WebRequest http://localhost:5000/run-tests -UseBasicParsing
+```
+
+This will execute the test suite and return the JSON response produced by the Flask API.
