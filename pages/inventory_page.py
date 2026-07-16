@@ -5,7 +5,6 @@ from pages.base_page import BasePage
 
 
 class InventoryPage(BasePage):
-
     def __init__(self, page):
         super().__init__(page)
 
@@ -104,4 +103,3 @@ class InventoryPage(BasePage):
 
         self.logger.warning(f"Product '{product_name}' not found")
         return None
-

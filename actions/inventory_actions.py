@@ -1,5 +1,4 @@
 class InventoryActions:
-
     def __init__(self, inventory_page):
         self.inventory_page = inventory_page
 

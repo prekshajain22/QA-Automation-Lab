@@ -2,7 +2,6 @@ from components.base_component import BaseComponent
 
 
 class Label(BaseComponent):
-
     def is_visible(self):
         self.logger.info(f"Verifying '{self.name}' is visible")
         return self.locator.is_visible()

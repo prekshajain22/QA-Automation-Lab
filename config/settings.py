@@ -12,7 +12,7 @@ SLOW_MO = int(os.getenv("SLOW_MO", "0"))
 if not BASE_URL:
     raise ValueError("BASE_URL is not set. Check environment config.")
 
-DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", 5000)) 
+DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", 5000))
 DEFAULT_NAVIGATION_TIMEOUT = int(os.getenv("DEFAULT_NAVIGATION_TIMEOUT", 10000))
 
 # ----------------------------

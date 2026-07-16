@@ -7,10 +7,7 @@ from config.settings import DEFAULT_NAVIGATION_TIMEOUT, DEFAULT_TIMEOUT, HEADLES
 @pytest.fixture(scope="function")
 def page(playwright: Playwright):
 
-    browser = playwright.chromium.launch(
-        headless=HEADLESS,
-        slow_mo=SLOW_MO
-    )
+    browser = playwright.chromium.launch(headless=HEADLESS, slow_mo=SLOW_MO)
 
     context = browser.new_context()
     page = context.new_page()

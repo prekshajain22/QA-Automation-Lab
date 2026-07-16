@@ -1,18 +1,17 @@
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import mm
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import mm
 from reportlab.platypus import (
-    SimpleDocTemplate,
-    Paragraph,
-    Spacer,
     HRFlowable,
     Image,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
 )
-
 
 PASS_COLOR = colors.HexColor("#2e7d32")
 FAIL_COLOR = colors.HexColor("#c62828")
@@ -108,7 +107,9 @@ def generate_pdf(data, output_path=None, project_root=None):
 
     # --- Header ---
     content.append(Paragraph("QA Execution Report", title_style))
-    content.append(Paragraph("AI Test Orchestrator — Intelligent QA Execution & Reporting", subtitle_style))
+    content.append(
+        Paragraph("AI Test Orchestrator — Intelligent QA Execution & Reporting", subtitle_style)
+    )
     content.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#1a237e")))
     content.append(Spacer(1, 6 * mm))
 
@@ -137,7 +138,9 @@ def generate_pdf(data, output_path=None, project_root=None):
     content.append(Paragraph(f"Passed:  {summary.get('passed', 0)}", pass_style))
     content.append(Paragraph(f"Failed:  {summary.get('failed', 0)}", fail_style))
     content.append(Paragraph(f"Duration:  {summary.get('duration', 0)} seconds", normal_style))
-    content.append(Paragraph(f"Generated:  {datetime.now().strftime('%d-%b-%Y  %H:%M')}", normal_style))
+    content.append(
+        Paragraph(f"Generated:  {datetime.now().strftime('%d-%b-%Y  %H:%M')}", normal_style)
+    )
 
     # --- Test Results ---
     content.append(Spacer(1, 4 * mm))
@@ -205,18 +208,22 @@ def generate_pdf(data, output_path=None, project_root=None):
 
             # Failing step
             if failing_step:
-                content.append(Paragraph(
-                    f"&#10007;  Failing Step:  {failing_step}",
-                    step_fail_style,
-                ))
+                content.append(
+                    Paragraph(
+                        f"&#10007;  Failing Step:  {failing_step}",
+                        step_fail_style,
+                    )
+                )
                 content.append(Spacer(1, 1 * mm))
 
             # Clean assertion error
             if crash_message:
-                content.append(Paragraph(
-                    crash_message.replace("\n", "<br/>"),
-                    error_style,
-                ))
+                content.append(
+                    Paragraph(
+                        crash_message.replace("\n", "<br/>"),
+                        error_style,
+                    )
+                )
 
             # Screenshot
             if screenshot:

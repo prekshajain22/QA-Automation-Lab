@@ -3,7 +3,6 @@ from config.settings import DEFAULT_TIMEOUT
 
 
 class TextInput(BaseComponent):
-
     def enter(self, value, timeout=DEFAULT_TIMEOUT, sensitive=False):
         self.wait_until_visible(timeout)
         display_value = "******" if sensitive else value

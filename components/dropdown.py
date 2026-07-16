@@ -2,7 +2,6 @@ from components.base_component import BaseComponent
 
 
 class Dropdown(BaseComponent):
-
     def select(self, value):
         self.wait_until_visible()
         self.logger.info(f"Selecting '{value}' from '{self.name}'")

@@ -3,7 +3,6 @@ from utils.waits import Waits
 
 
 class BaseComponent:
-
     def __init__(self, page, locator, name=None):
         self.page = page
         self.locator = page.locator(locator)

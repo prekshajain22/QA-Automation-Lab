@@ -5,7 +5,6 @@ from config.settings import DEFAULT_TIMEOUT
 
 
 class Button(BaseComponent):
-
     def click(self, retries=2, timeout=DEFAULT_TIMEOUT):
 
         for attempt in range(retries + 1):

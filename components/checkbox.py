@@ -2,7 +2,6 @@ from components.base_component import BaseComponent
 
 
 class Checkbox(BaseComponent):
-
     def check(self):
 
         self.wait_until_visible()

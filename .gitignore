@@ -23,3 +23,5 @@ screenshots/
 Thumbs.db
 
 .env
+# graphify-axet
+.graphify/

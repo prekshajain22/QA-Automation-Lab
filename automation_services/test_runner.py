@@ -1,14 +1,15 @@
-from flask import Flask, jsonify, send_file, make_response
+import json
+import re
 import subprocess
 import sys
-import json
 import traceback
-import os
-import re
 from pathlib import Path
 
-from automation_services.pdf_report_generator import generate_pdf
+from flask import Flask, jsonify, make_response, send_file
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from automation_services.pdf_report_generator import generate_pdf
 
 app = Flask(__name__)
 
@@ -25,7 +26,6 @@ PDF_FILE = REPORT_DIR / "QA_Execution_Report.pdf"
 def run_tests():
 
     try:
-
         REPORT_DIR.mkdir(exist_ok=True)
 
         print("Starting pytest execution...")
@@ -68,16 +68,10 @@ def run_tests():
         all_tests = []
 
         for item in pytest_data.get("tests", []):
-
             node_id = item.get("nodeid", "")
             test_fn = node_id.split("::")[-1]
 
-            name = (
-                test_fn
-                .replace("test_", "")
-                .replace("_", " ")
-                .capitalize()
-            )
+            name = test_fn.replace("test_", "").replace("_", " ").title()
 
             outcome = item.get("outcome", "unknown").upper()
 
@@ -99,6 +93,9 @@ def run_tests():
 
                 # Extract clean assertion message from crash
                 crash_message = crash.get("message", "").strip()
+                reason = crash_message.split("\n")[0].strip()
+                if not reason:
+                    reason = "Test failed"
 
                 # Extract the failing BDD step from longrepr
                 failing_step = None
@@ -114,25 +111,35 @@ def run_tests():
 
                 # Extract execution log (completed actions)
                 execution_log = [
-                    entry.get("msg", "")
-                    for entry in call.get("log", [])
-                    if entry.get("msg")
+                    entry.get("msg", "") for entry in call.get("log", []) if entry.get("msg")
                 ]
 
                 failed_tests.append(
                     {
                         "name": name,
+                        "status": outcome,
                         "failing_step": failing_step,
                         "crash_message": crash_message,
+                        "reason": reason,
                         "execution_log": execution_log,
+                        "jira_summary": f"Automation Failure - {name}",
                         "screenshot": screenshot_path if screenshot_exists else None,
                     }
                 )
 
+        if summary["failed"] == 0:
+            email_message = (
+                f"QA Automation execution completed successfully. "
+                f"All {summary['total']} tests passed."
+            )
+        else:
+            email_message = (
+                f"QA Automation execution completed with {summary['failed']} failed test(s)."
+            )
+
         response_data = {
-            "execution_status": (
-                "PASSED" if result.returncode == 0 else "FAILED"
-            ),
+            "execution_status": ("PASSED" if result.returncode == 0 else "FAILED"),
+            "email_message": email_message,
             "summary": summary,
             "failed_tests": failed_tests,
             "all_tests": all_tests,
@@ -154,7 +161,6 @@ def run_tests():
         return jsonify(response_data)
 
     except Exception as e:
-
         tb = traceback.format_exc()
         print(tb)
 
@@ -165,7 +171,7 @@ def run_tests():
                     "traceback": tb,
                 }
             ),
-            500
+            500,
         )
 
 
@@ -173,12 +179,7 @@ def run_tests():
 def download_report():
 
     if not PDF_FILE.exists():
-
-        return jsonify(
-            {
-                "error": "PDF report not available yet"
-            }
-        ), 404
+        return jsonify({"error": "PDF report not available yet"}), 404
 
     return send_file(
         PDF_FILE,
@@ -188,7 +189,6 @@ def download_report():
 
 
 if __name__ == "__main__":
-
     app.run(
         host="0.0.0.0",
         port=5000,

@@ -4,16 +4,21 @@ from config.settings import DEFAULT_TIMEOUT
 
 
 class Waits:
-
     DEFAULT_TIMEOUT = DEFAULT_TIMEOUT
 
     @staticmethod
     def until_visible(locator: Locator, timeout=DEFAULT_TIMEOUT):
-        locator.wait_for(state="visible", timeout=timeout,)
+        locator.wait_for(
+            state="visible",
+            timeout=timeout,
+        )
 
     @staticmethod
     def until_hidden(locator: Locator, timeout=DEFAULT_TIMEOUT):
-        locator.wait_for(state="hidden", timeout=timeout,)
+        locator.wait_for(
+            state="hidden",
+            timeout=timeout,
+        )
 
     @staticmethod
     def until_attached(locator: Locator, timeout=DEFAULT_TIMEOUT):
@@ -21,11 +26,17 @@ class Waits:
 
     @staticmethod
     def until_detached(locator: Locator, timeout=DEFAULT_TIMEOUT):
-        locator.wait_for(state="detached",timeout=timeout,)
-    
+        locator.wait_for(
+            state="detached",
+            timeout=timeout,
+        )
+
     @staticmethod
     def until_url(page: Page, url, timeout=DEFAULT_TIMEOUT):
-        page.wait_for_url(url, timeout=timeout,)
+        page.wait_for_url(
+            url,
+            timeout=timeout,
+        )
 
     @staticmethod
     def until_load(page: Page):
